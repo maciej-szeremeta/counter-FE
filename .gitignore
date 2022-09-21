@@ -1,7 +1,8 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# https://www.toptal.com/developers/gitignore/
 
 # dependencies
 /node_modules
+/pomoce
 /.pnp
 .pnp.js
 

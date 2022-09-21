@@ -1,0 +1,14 @@
+{
+  "prettier.printWidth": 80,
+  "prettier.tabWidth": 2,
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.quoteProps": "consistent",
+  "prettier.trailingComma": "all",
+  "prettier.arrowParens": "avoid",
+  "prettier.bracketSpacing": true,
+  "prettier.bracketSameLine": true,
+  "prettier.endOfLine": "auto",
+  "prettier.jsxBracketSameLine": true,
+  "prettier.jsxSingleQuote": true
+}

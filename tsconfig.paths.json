@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "types": ["../backend/src/types"],
+      "@/utils/*": ["./src/utils/*"]
+    }
+  }
+}

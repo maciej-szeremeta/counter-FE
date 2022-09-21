@@ -1,0 +1,140 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "plugins": [
+    "react",
+    "prettier",
+    "@typescript-eslint",
+    "react-hooks",
+    "jsx-a11y"
+  ],
+  "rules": {
+    // WYGLĄD
+    // Odstępy w nawiasach
+    "array-bracket-spacing": ["error", "always", { "arraysInArrays": false }],
+    // Nawiasy w parametrach funkcji (Kiedy Wymagany)
+    "arrow-parens": ["error", "as-needed"],
+    // Odstęp miedzy strzałką z przodu i z tyłu
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+    // Odstępy w blokach {}
+    "block-spacing": "error",
+    // Łamanie funkcji ,klas,obiektów z wyjątkiem jednoliniowych
+    "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+    // Stawianie przecinków na końcu :
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always",
+        "objects": "always",
+        "imports": "always",
+        "exports": "always",
+        "functions": "never"
+      }
+    ],
+    // Odstępy po przecinkach
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    // Odstępy w klasach
+    "computed-property-spacing": ["error", "always"],
+    // miejsce kropki po własciwosci
+    "dot-location": ["error", "property"],
+    // Argumenty funkcji w nowej lini
+    "function-call-argument-newline": ["error", "never"],
+    // Argumenty funkcji w nowej lini min 3
+    "function-paren-newline": ["error", { "minItems": 2 }],
+    // Łamanie lini po strzałce funkcji
+    "implicit-arrow-linebreak": ["error", "below"],
+    // Wcięcia Tab
+    "indent": ["error", 2, { "ignoredNodes": ["ConditionalExpression"] }],
+    // Cudzysłów poj. w jsx
+    "jsx-quotes": ["error", "prefer-single"],
+    // Odstępy miedzy kluczem i wartoscia w obiekcie
+    "key-spacing": ["error", { "align": "colon" }],
+    // Odstęp prze linią komentarza
+    "lines-around-comment": ["error", { "beforeLineComment": true }],
+    // Odstęp miedzy właściwościami i metodami w klasach
+    "lines-between-class-members": ["error", "always"],
+    // Max długość tekstu
+    // "max-len": ["warn", { "code": 80, "tabWidth": 6, "ignoreComments": true }],
+    // łamanie warunku trujargumentowego
+    "multiline-ternary": ["error", "never"],
+    // Nowa linia w chaining
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+    // Usówanie wolnych pustych spacji
+    "no-multi-spaces": "error",
+    // Usówanie wolnych enterów
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+    "no-whitespace-before-property": "error",
+    // Łamanie obiektów
+    "object-curly-newline": ["error", { "consistent": true }],
+    // Średniki
+    "semi": "error",
+    // Cudzysłów pojedyńczy
+    "quotes": ["error", "single"],
+    // Cudzysłów w obiektach na kluczu
+    "quote-props": ["error", "consistent"],
+    "no-use-before-define": "off",
+    "object-curly-spacing": [
+      "error",
+      "always",
+      { "arraysInObjects": false, "objectsInObjects": false }
+    ],
+    // Wyłączenie tych samych zmiennych w różnym zasięgu
+    "no-shadow": "off",
+    // Wyłączenie domyślnych propTypów
+    "react/require-default-props": "off",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "import/no-unresolved": [2, { "ignore": ["types$", "@/utils/*"] }],
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies":"off",
+    "import/extensions": [
+      "off",
+      "ignorePackages",
+      { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }
+    ],
+    "prettier/prettier": ["off", {}]
+  },
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": true,
+            "allowTypedFunctionExpressions": true,
+            "allowHigherOrderFunctions": true
+          }
+        ]
+      }
+    }
+  ]
+}
