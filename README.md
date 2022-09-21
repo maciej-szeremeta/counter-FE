@@ -1,46 +1,63 @@
-# Getting Started with Create React App
+<!-- Table of Contents -->
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# :notebook_with_decorative_cover: Table of Contents
 
-## Available Scripts
+<!-- About the Project -->
 
-In the project directory, you can run:
+## :star2: About the Project
 
-### `npm start`
+<!-- Screenshots -->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### :camera: Screenshots
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<!-- TechStack -->
 
-### `npm test`
+### :space_invader: Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+[<img src="https://img.shields.io/badge/React%20JS-61DAFB?style=for-the-badge&logo=React&logoColor=white">](https://reactjs.org/)
 
-### `npm run build`
+<!-- Features -->
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### :dart: Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<!-- Env Variables -->
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### :key: Environment Variables
 
-### `npm run eject`
+<!-- Getting Started -->
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## :toolbox: Getting Started
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<!-- Prerequisites -->
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### :bangbang: Prerequisites
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<!-- Installation -->
 
-## Learn More
+### :gear: Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<!-- Run Locally -->
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### :running: Run Locally
+
+<!-- Deployment -->
+
+### :triangular_flag_on_post: Deployment
+
+<!-- Usage -->
+
+## :eyes: Usage
+
+<!-- Roadmap  -->
+
+## :compass: Roadmap
+
+<!-- License -->
+
+## :warning: License
+
+<!-- Contact -->
+
+## :handshake: Contact
+
+Maciej Szeremeta - maciej.szeremeta@o2.pl
