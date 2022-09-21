@@ -1,9 +1,13 @@
 import React from 'react';
+import { Routes, Route, } from 'react-router-dom';
+import { LoginView, } from './views/LoginView';
 
 export function App() {
   return (
     <div className='App'>
-      <h1>Hello World!</h1>
+      <Routes>
+        <Route path='/' element={<LoginView />} />
+      </Routes>
     </div>
   );
 }

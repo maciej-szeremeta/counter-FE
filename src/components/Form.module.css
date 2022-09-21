@@ -1,0 +1,13 @@
+.form{
+   min-width: 256px;
+   border: 1px solid #ccc;
+   border-radius: 0.25rem;
+   padding: 1rem;
+}
+.form > * {
+   margin-bottom: 1rem;
+}
+.formHeader{
+   padding: 0 1rem;
+   line-height: 4rem;
+}
