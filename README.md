@@ -16,6 +16,10 @@
 
 [<img src="https://img.shields.io/badge/React%20JS-61DAFB?style=for-the-badge&logo=React&logoColor=white">](https://reactjs.org/)
 
+[<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">](https://reactjs.org/)
+
+[<img src="https://img.shields.io/badge/React%20Router-CA4245?style=for-the-badge&logo=React%20Router&logoColor=white">](https://reactrouter.com/en/main)
+
 <!-- Features -->
 
 ### :dart: Features
