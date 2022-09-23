@@ -1,5 +1,7 @@
 import React, { FormEvent, useState, } from 'react';
 import { faUser, faKey, } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, } from 'react-redux';
+import { loginUser, } from '../features/login/loginSlice';
 import { apiUrl, } from '../config/api';
 
 import { Input, } from '../components/common/Input';
@@ -9,6 +11,8 @@ import { Form, } from '../components/Form';
 import styles from './LoginView.module.css';
 
 export function LoginView() {
+  const dispatch = useDispatch();
+
   const [ email, setEmail, ] = useState('');
   const [ pwd, setPwd, ] = useState('');
   const [ error, setError, ] = useState([]); 
@@ -31,6 +35,7 @@ export function LoginView() {
       setError(data.message);
     }
     else {
+      dispatch(loginUser(data));
       setEmail('');
       setPwd('');
       setError([]);
