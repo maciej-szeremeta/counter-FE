@@ -9,8 +9,10 @@ interface Props{
 export function Form({ children, header, subheader, }:Props) {
   return (
     <form className={styles.form}>
-      <h1 className={styles.formHeader}>{header}</h1>
-      <p className={styles.formSubheader}>{subheader}</p>
+      <div className={styles.headerContainer}>
+        <h1 className={styles.header}>{header}</h1>
+        <p className={styles.subheader}>{subheader}</p>
+      </div>
       { children }
     </form>
   );
