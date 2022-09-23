@@ -1,17 +1,25 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 import React, { Dispatch, SetStateAction, } from 'react';
 import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
 import { IconProp, } from '@fortawesome/fontawesome-svg-core';
 import styles from './Input.module.css';
 
+interface Error{
+  error: string[];
+  valid: string;
+}
 interface Props{
   type: 'text' | 'number' | 'password';
   name: string;
   icon?: IconProp;
   value?: string | string[] | number;
+  error: Error;
   handleChange:Dispatch<SetStateAction<string>>;
 }
 
-export function Input({ type='text', name, icon, value, handleChange, }:Props) {
+export function Input({ type = 'text', name, icon, value, error, handleChange, }: Props) {
+  const messages = error?.error;
   return (
     <div className={styles.container}>
       <div className={styles.inputContainer}>
@@ -26,7 +34,13 @@ export function Input({ type='text', name, icon, value, handleChange, }:Props) {
             handleChange(e.target.value)}
         />
       </div>
-      <em className={styles.label}>element</em>
+      <em className={styles.label}>
+        {messages.map(err => {
+          if (err.toLocaleLowerCase().includes(error.valid.toLocaleLowerCase())) {
+            return err;
+          }
+        })}
+      </em>
     </div>
   );
 };

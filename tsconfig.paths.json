@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "types": ["../backend/src/types"],
+      "types": ["../backend/src/interface"],
       "@/utils/*": ["./src/utils/*"]
     }
   }

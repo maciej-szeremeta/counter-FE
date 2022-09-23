@@ -1,33 +1,58 @@
 import React, { FormEvent, useState, } from 'react';
 import { faUser, faKey, } from '@fortawesome/free-solid-svg-icons';
+import { apiUrl, } from '../config/api';
+
 import { Input, } from '../components/common/Input';
 import { Button, } from '../components/common/Button';
 import { Form, } from '../components/Form';
+
 import styles from './LoginView.module.css';
 
 export function LoginView() {
-  const [ login, setLogin, ] = useState('');
+  const [ email, setEmail, ] = useState('');
   const [ pwd, setPwd, ] = useState('');
+  const [ error, setError, ] = useState([]); 
   
-  const handleSubmit = (e:FormEvent) => {
+  const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
-    console.log({ login, pwd, });
+
+    const req = await fetch(
+      `${apiUrl}/auth/login`, {
+        method     : 'POST',
+        headers    : { 'Content-Type': 'application/json', },
+        credentials: 'include',
+        body       : JSON.stringify({ email, pwd, }),
+      }
+    );
+
+    const data = await req.json();
+
+    if (data.statusCode === 400) {
+      setError(data.message);
+    }
+    else {
+      setEmail('');
+      setPwd('');
+      setError([]);
+    }
   };
   return (
     <div className={styles.loginView}>
       <Form header='Logowanie'>
         <Input
           type='text'
-          name='login'
+          name='email'
           icon={faUser}
-          value={login}
-          handleChange={setLogin} />
+          value={email}
+          handleChange={setEmail}
+          error={{ error, valid: 'email', }} />
         <Input
           type='password'
           name='pwd'
           icon={faKey}
           value={pwd}
           handleChange={setPwd}
+          error={{ error, valid: 'hasło', }}
         />
         <Button
           text='Zaloguj'
