@@ -31,10 +31,14 @@ export const loginSlice = createSlice({
       state.user.email = action.payload.email;
       state.user.role = action.payload.role;
     },
+    logoutUser: state => {
+      state.user.id = null;
+      state.user.email = '';
+      state.user.role = '';
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { loginUser, } = loginSlice.actions;
+export const { loginUser, logoutUser, } = loginSlice.actions;
 
 export default loginSlice.reducer;

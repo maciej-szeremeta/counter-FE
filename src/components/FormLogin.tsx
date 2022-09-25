@@ -1,5 +1,5 @@
 import React, { ReactNode, } from 'react';
-import styles from './Form.module.css';
+import styles from './FormLogin.module.css';
 
 interface Props{
   children: ReactNode;
