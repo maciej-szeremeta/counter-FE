@@ -6,7 +6,7 @@ import { apiUrl, } from '../config/api';
 
 import { Input, } from '../components/common/Input';
 import { Button, } from '../components/common/Button';
-import { Form, } from '../components/Form';
+import { Form, } from '../components/FormLogin';
 
 import styles from './LoginView.module.css';
 
