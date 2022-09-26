@@ -1,7 +1,8 @@
 import React from 'react';
-import { faAdd, faCircleInfo, faCirclePlus, faCircleUser, faFileArchive, faXmark, } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo, faCirclePlus, faCircleUser, faXmark, } from '@fortawesome/free-solid-svg-icons';
 import { Icon, ListItem, } from './common';
 import styles from './Sidebar.module.css';
+import { List, } from './List';
 
 export function Sidebar() {
   return (<>
@@ -15,11 +16,11 @@ export function Sidebar() {
       <div className={styles.sidebarWrapper}>
         <div className={styles.sidebarMenu}>
           <h3 className={styles.sidebarSubTitle}>Szybkie Menu</h3>
-          <ul className={styles.sidebarList}>
+          <List className={styles.sidebarList}>
             <ListItem text='Użytkownicy' icon={faCircleUser} iconSize='1.25' />
             <ListItem text='Raporty' icon={ faCircleInfo} iconSize='1.25' />
             <ListItem text='Test' icon={ faCirclePlus } iconSize='1.25' />
-          </ul>
+          </List>
         </div>
       </div>
     </div>
