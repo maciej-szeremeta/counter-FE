@@ -1,14 +1,17 @@
-import React, { useState, } from 'react';
+import React, { Dispatch, SetStateAction, useState, } from 'react';
 import { useSelector, useDispatch, } from 'react-redux';
-import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
-import { faGear, } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faGear, } from '@fortawesome/free-solid-svg-icons';
 import { logoutUser, } from '../features/login/loginSlice';
-import { Button, } from './common/Button';
+import { Button, Icon, } from './common';
 import { apiUrl, } from '../config/api';
 import type { RootState, } from '../store';
-import styles from './TopBar.module.css';
 
-export function TopBar() {
+import styles from './Topbar.module.css';
+
+interface Props{
+  handleHidden:Dispatch<SetStateAction<boolean>>
+}
+export function Topbar({ handleHidden, }:Props) {
   const user = useSelector((state:RootState) => 
     state.login.user);
   const dispatch = useDispatch();
@@ -27,19 +30,27 @@ export function TopBar() {
     }
   };
   return (
-    <div className={styles.topBar}>
+    <nav className={styles.topBar}>
+      <div className={styles.topBarTop} />
       <div className={styles.topBarWrapper} >
         <div className={styles.topLeft}>
+          <div className={styles.topBarIconContainer}>
+            <Icon
+              icon={faBars}
+              handleClick={() => 
+                handleHidden((value: boolean):boolean => 
+                  !value)} />
+          </div>
           <span className={styles.logo }>Licznik</span>
         </div>
         <div className={styles.topRight}>
               Witaj {user.email}
           <div className={styles.topBarIconContainer}>
-            <FontAwesomeIcon
+            <Icon
               icon={faGear}
-              onClick={() => 
-                setTopBarRightMenu(value => 
-                  !value) } />
+              handleClick={() =>
+                setTopBarRightMenu(value =>
+                  !value)}/>
           </div>
           <div className={styles.topRightMenu}
             style={{ display: !topBarRightMenu ? 'none':'block', }}
@@ -48,6 +59,6 @@ export function TopBar() {
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };

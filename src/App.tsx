@@ -2,8 +2,7 @@ import React from 'react';
 import { useSelector, } from 'react-redux';
 import { Routes, Route, Navigate, } from 'react-router-dom';
 import type { RootState, } from './store';
-import { DashboardView, } from './views/DashboardView';
-import { LoginView, } from './views/LoginView';
+import { DashboardView, LoginView, } from './views';
 
 export function App() {
   const id = useSelector((state:RootState) => 
@@ -11,9 +10,10 @@ export function App() {
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={!id ? <Navigate to='login' />:<DashboardView/> } />
+        {/* <Route path='/' element={!id ? <Navigate to='login' />:<DashboardView/> } />
         <Route path='/login' element={!id ? <LoginView /> : <Navigate to='/' />} />
-        <Route path='*' element={<LoginView />} />
+        <Route path='*' element={<LoginView />} /> */}
+        <Route path='*' element={ <DashboardView/>} />
       </Routes>
     </div>
   );

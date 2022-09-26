@@ -1,0 +1,41 @@
+.sidebar {
+  flex: 1;
+  width: 22.5rem;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: #fff;
+}
+.sidebarOpacity::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22.5rem;
+  width: calc(100% - 22.5rem);
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.sidebarTop {
+  height: 0.725rem;
+  width: 100%;
+  background-color: #e0e0e0;
+}
+.sidebarHeader {
+  height: 3.65rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.sidebarHeaderTitle {
+  font-size: 1.25rem;
+}
+.sidebarSubTitle {
+  height: 1.25rem;
+  font-size: 1rem;
+  color:#888;
+  padding: 1rem 0 0.5rem 1rem;
+}
