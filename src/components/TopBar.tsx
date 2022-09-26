@@ -1,4 +1,4 @@
-import React, { useState, } from 'react';
+import React, { Dispatch, SetStateAction, useState, } from 'react';
 import { useSelector, useDispatch, } from 'react-redux';
 import { faBars, faGear, } from '@fortawesome/free-solid-svg-icons';
 import { logoutUser, } from '../features/login/loginSlice';
@@ -8,7 +8,10 @@ import type { RootState, } from '../store';
 
 import styles from './Topbar.module.css';
 
-export function Topbar() {
+interface Props{
+  handleHidden:Dispatch<SetStateAction<boolean>>
+}
+export function Topbar({ handleHidden, }:Props) {
   const user = useSelector((state:RootState) => 
     state.login.user);
   const dispatch = useDispatch();
@@ -33,7 +36,10 @@ export function Topbar() {
         <div className={styles.topLeft}>
           <div className={styles.topBarIconContainer}>
             <Icon
-              icon={faBars}/>
+              icon={faBars}
+              handleClick={() => 
+                handleHidden((value: boolean):boolean => 
+                  !value)} />
           </div>
           <span className={styles.logo }>Licznik</span>
         </div>

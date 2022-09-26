@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, } from 'react';
 import { Sidebar, Topbar, } from '../components';
 import styles from './Dashboard.module.css';
 
@@ -11,10 +11,12 @@ const stylesMain={
 
 export function DashboardView() {
 
+  const [ sideBarMenu, setSiteBarMenu, ] = useState(false);
+  console.log(sideBarMenu);
   return (<>
-    <Topbar />
+    <Topbar handleHidden={setSiteBarMenu } />
     <div className={styles.container}>
-      <Sidebar />
+      {sideBarMenu && <Sidebar handleHidden={setSiteBarMenu }/>}
       <div style={{ backgroundColor: '#661fff', flex: 4, }} >
         <div className={ styles.main } style={stylesMain}>Main</div>
       </div>
