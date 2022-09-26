@@ -1,6 +1,10 @@
 .topBar {
   width: 100%;
-  height: 3rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+.topBarTop {
+  height: 0.725rem;
+  background-color: var(--secondaryColor);
 }
 
 .topBarWrapper {
@@ -9,27 +13,40 @@
   justify-content: space-between;
   height: 100%;
   padding: 1rem;
+  color: #eee;
+  background-color: var(--primaryColor);
 }
-
-.logo {
-  font-weight: 600;
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.topRight {
+.topRight,
+.topLeft {
   display: flex;
   justify-content: space-around;
   align-items: center;
   position: relative;
 }
+.topLeft .topBarIconContainer {
+  margin-right: 1.5rem;
+  cursor: pointer;
+  color: #555;
+}
+.logo {
+  font-weight: 600;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
 
-.topBarIconContainer {
-  margin-left: 1rem;
+
+.topRight .topBarIconContainer {
+  margin-left: 1.5rem;
   cursor: pointer;
   color: #555;
 }
 
+.icon {
+  color: #fff;
+  opacity: 60%;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 .topRightMenu {
   position: absolute;
   top: 2rem;

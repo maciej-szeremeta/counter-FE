@@ -2,8 +2,7 @@ import React from 'react';
 import { useSelector, } from 'react-redux';
 import { Routes, Route, Navigate, } from 'react-router-dom';
 import type { RootState, } from './store';
-import { DashboardView, } from './views/DashboardView';
-import { LoginView, } from './views/LoginView';
+import { DashboardView, LoginView, } from './views';
 
 export function App() {
   const id = useSelector((state:RootState) => 
