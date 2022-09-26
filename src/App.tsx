@@ -10,9 +10,10 @@ export function App() {
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={!id ? <Navigate to='login' />:<DashboardView/> } />
+        {/* <Route path='/' element={!id ? <Navigate to='login' />:<DashboardView/> } />
         <Route path='/login' element={!id ? <LoginView /> : <Navigate to='/' />} />
-        <Route path='*' element={<LoginView />} />
+        <Route path='*' element={<LoginView />} /> */}
+        <Route path='*' element={ <DashboardView/>} />
       </Routes>
     </div>
   );

@@ -1,0 +1,12 @@
+.listItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  height: 2rem;
+}
+.listItemText{
+   margin-left: 1rem;
+   font-weight: 600;
+   font-size: 1rem;
+   color: #333;
+}

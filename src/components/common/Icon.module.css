@@ -1,6 +1,5 @@
 .icon {
   margin-right: 1rem;
   opacity: 60%;
-  width: 1.5rem;
-  height: 1.5rem;
+  cursor: pointer;
 }
