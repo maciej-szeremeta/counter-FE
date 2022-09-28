@@ -6,7 +6,7 @@ import { Button, Icon, } from './common';
 import { apiUrl, } from '../config/api';
 import type { RootState, } from '../store';
 
-import styles from './Topbar.module.css';
+import styles from './TopBar.module.css';
 
 interface Props{
   handleHidden:Dispatch<SetStateAction<boolean>>

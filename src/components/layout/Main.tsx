@@ -1,5 +1,6 @@
 import React, { ReactNode, useState, } from 'react';
-import { Sidebar, Topbar, } from '..';
+import { Sidebar, } from '../Sidebar';
+import { Topbar, } from '../TopBar';
 import styles from './Main.module.css';
 
 interface Props{
