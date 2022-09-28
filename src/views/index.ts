@@ -1,2 +1,2 @@
-export * from './DashboardView';
 export * from './LoginView';
+export * from './HomeView';
