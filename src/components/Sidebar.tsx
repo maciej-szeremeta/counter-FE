@@ -38,7 +38,7 @@ export function Sidebar({ handleHidden, }:Props) {
               text='Analityka'
               icon={faArrowTrendUp}
               iconSize='1.25'
-              link='analiz'
+              link='/analiz'
               handleClick={() => 
                 handleHidden((value: boolean):boolean => 
                   !value)}/>
@@ -51,7 +51,7 @@ export function Sidebar({ handleHidden, }:Props) {
               text='Użytkownicy'
               icon={faCircleUser}
               iconSize='1.25'
-              link='users'
+              link='/users'
               handleClick={() => 
                 handleHidden((value: boolean):boolean => 
                   !value)}/>
@@ -59,7 +59,7 @@ export function Sidebar({ handleHidden, }:Props) {
               text='Raporty'
               icon={faCircleInfo}
               iconSize='1.25'
-              link='users-raport'
+              link='/users-raport'
               handleClick={() => 
                 handleHidden((value: boolean):boolean => 
                   !value)}/>
