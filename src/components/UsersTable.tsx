@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState, } from 'react';
 import { useTable, Column, } from 'react-table';
 import { useQuery, } from 'react-query';
 import { GetAllUsersRes, UserEntity, } from 'types';
+import { Link, } from 'react-router-dom';
 import { apiUrl, } from '../config/api';
 
 import styles from './UsersTable.module.css';
@@ -62,9 +63,12 @@ export function UsersTable() {
           null,
         id      : 'more',
         accessor: 'id',
-        Cell    : row =>
-          <button type='button' onClick={() =>
-            console.log(row) }>Więcej</button>, }, ]), []
+        Cell    : row => {
+          const { value, } = row;
+          return <Link to={`${value}`}>
+              Więcej
+          </Link>; 
+        }, }, ]), []
   );
 
   const { getTableProps, headerGroups, getTableBodyProps, rows, prepareRow, } = useTable({ data, columns, });
