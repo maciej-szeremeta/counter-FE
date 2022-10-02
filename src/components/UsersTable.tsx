@@ -4,10 +4,10 @@ import React, { useEffect, useMemo, useState, } from 'react';
 import { useTable, Column, } from 'react-table';
 import { useQuery, } from 'react-query';
 import { GetAllUsersRes, UserEntity, } from 'types';
-import { Link, } from 'react-router-dom';
 import { apiUrl, } from '../config/api';
 
 import styles from './UsersTable.module.css';
+import { Button, } from './common';
 
 export function UsersTable() {
 
@@ -65,9 +65,7 @@ export function UsersTable() {
         accessor: 'id',
         Cell    : row => {
           const { value, } = row;
-          return <Link to={`${value}`}>
-              Więcej
-          </Link>; 
+          return <Button href={`${value}`} text='Więcej'/>;
         }, }, ]), []
   );
 
@@ -79,7 +77,7 @@ export function UsersTable() {
   return (<>
     {isLoading && (<p>Loading...</p>)}
     {isError && (<p>`Brak połączenia z bazą: {error.message}`</p>)}
-    <table className={styles.userTable} {...getTableProps()} >
+    <table className={styles.userTable} {...getTableProps()} cellSpacing='0'>
       <thead >
         {headerGroups.map(headerGroup =>
           (
@@ -98,7 +96,7 @@ export function UsersTable() {
           return <tr {...row.getRowProps()} className={isEven(i) ? `${styles.rowEven}` : ''} >
             {row.cells.map(cell =>
               (
-                <td {...cell.getCellProps()} className={styles.tabelData}>{cell.render('Cell')}</td>
+                <td {...cell.getCellProps()} className={styles.tabelData} >{cell.render('Cell')}</td>
               ))}
           </tr>;
         })}

@@ -10,11 +10,10 @@ export function App() {
   return (
     <div className='App'>
       <Routes>
-        {/* <Route path='/' element={!id ? <Navigate to='login' />:<DashboardView/> } />
+        <Route path='/' element={id ? <HomeView/> :<Navigate to='/login' />} />
+        <Route path='users' element={ id ? <UserView/> : <Navigate to='/login' />} />
         <Route path='login' element={!id ? <LoginView /> : <Navigate to='/' />} />
-        <Route path='*' element={<LoginView />} /> */}
-        <Route path='/' element={ <HomeView/>} />
-        <Route path='/users' element={ <UserView/>} />
+        <Route path='*' element={!id ? <HomeView/>: <Navigate to='/login' /> }/>
       </Routes>
     </div>
   );
