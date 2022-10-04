@@ -9,7 +9,11 @@ import { apiUrl, } from '../config/api';
 import styles from './UsersTable.module.css';
 import { Button, } from './common';
 
-export function UsersTable() {
+interface Props{
+  className?: string;
+}
+
+export function UsersTable({ className, }:Props) {
 
   const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
   
