@@ -4,9 +4,8 @@ import { useDispatch, } from 'react-redux';
 import { loginUser, } from '../features/login/loginSlice';
 import { apiUrl, } from '../config/api';
 
-import { Input, } from '../components/common/Input';
-import { Button, } from '../components/common/Button';
-import { Form, } from '../components/FormLogin';
+import { Input, Button, } from '../components/common';
+import { Form, } from '../components';
 
 import styles from './LoginView.module.css';
 

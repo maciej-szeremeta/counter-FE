@@ -1,34 +1,27 @@
 /* eslint-disable react/jsx-key */
 
-import React, { useEffect, useMemo, useState, } from 'react';
+import React, { useEffect, useMemo, } from 'react';
 import { useTable, Column, } from 'react-table';
-import { useQuery, } from 'react-query';
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
 import { GetAllUsersRes, UserEntity, } from 'types';
-import { apiUrl, } from '../config/api';
 
 import styles from './UsersTable.module.css';
 import { Button, } from './common';
 
-export function UsersTable() {
+interface GetData {
+  isError: boolean;
+  isLoading: boolean;
+  error: Error | null;
+  refetch: <TPageData>(options?: RefetchOptions & RefetchQueryFilters<TPageData>) => Promise<QueryObserverResult<unknown, unknown>>;
+  users: GetAllUsersRes | [];
+}
+interface Props{
+  className?: string;
+  getData: GetData;
+}
 
-  const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
-  
-  const { isLoading, isError, error, refetch, } = useQuery<GetAllUsersRes, Error>(
-    'user', async ():Promise<GetAllUsersRes> => {
-      const res = await fetch(
-        `${apiUrl}/user`, {
-          credentials: 'include',
-        }
-      );
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await res.json();
-
-      setUsers( data);
-      return data;
-    }
-  );
+export function UsersTable({ className, getData, }: Props) {
+  const { isError, isLoading, error, refetch, users, } = getData;
 
   useEffect(
     () => {
@@ -76,7 +69,7 @@ export function UsersTable() {
   
   return (<>
     {isLoading && (<p>Loading...</p>)}
-    {isError && (<p>`Brak połączenia z bazą: {error.message}`</p>)}
+    {isError && (<p>`Brak połączenia z bazą: {error?.message}`</p>)}
     <table className={styles.userTable} {...getTableProps()} cellSpacing='0'>
       <thead >
         {headerGroups.map(headerGroup =>
