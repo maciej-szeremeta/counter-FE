@@ -1,13 +1,37 @@
+/* eslint-disable no-sequences */
 import React, { FormEvent, useState, } from 'react';
+import { GetAllUsersRes, } from 'types';
+import { useQuery, } from 'react-query';
 import { Button, Input, } from '../components/common';
 import { FormAdd, Main, Navigation, UsersTable, } from '../components';
 import styles from './UserView.module.css';
 import { apiUrl, } from '../config/api';
 
 export function UserView() {
+  const [ visibleForm, setVisibleForm, ] = useState(false);
+  
   const [ email, setEmail, ] = useState('');
   const [ pwd, setPwd, ] = useState('');
-  const [ error, setError, ] = useState([]); 
+  const [ errors, setError, ] = useState([]); 
+  
+  const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
+  
+  const { isLoading, isError, error, refetch, } = useQuery<GetAllUsersRes, Error>(
+    'user', async ():Promise<GetAllUsersRes> => {
+      const res = await fetch(
+        `${apiUrl}/user`, {
+          credentials: 'include',
+        }
+      );
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await res.json();
+
+      setUsers( data);
+      return data;
+    }
+  );
   
   const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
@@ -30,10 +54,10 @@ export function UserView() {
       setEmail('');
       setPwd('');
       setError([]);
+      refetch();
     }
   };
-  
-  const [ visibleForm, setVisibleForm, ] = useState(true);
+
   return (
     <Main>
       <div className={styles.wrapper}>
@@ -46,18 +70,16 @@ export function UserView() {
                   type='text'
                   name='email'
                   value={email}
-
-                  // placeholder='Email'
+                  placeholder='Email'
                   handleChange={setEmail}
-                  error={{ error, valid: 'email', }} />
+                  error={{ error: errors, valid: 'email', }} />
                 <Input
                   type='password'
                   name='pwd'
                   value={pwd}
-
-                  // placeholder='Hasło'
+                  placeholder='Hasło'
                   handleChange={setPwd}
-                  error={{ error, valid: 'hasło', }}
+                  error={{ error: errors, valid: 'hasło', }}
                 />
                 <Button
                   text='Dodaj'
@@ -66,7 +88,7 @@ export function UserView() {
                 />
               </FormAdd>}
           </div>
-          <UsersTable className={styles.userInfo}/>
+          <UsersTable className={styles.userInfo} getData={{ isError, isLoading, error, refetch, users, } } />
         </div>
       </div>
     </Main>

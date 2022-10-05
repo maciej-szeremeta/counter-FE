@@ -1,16 +1,17 @@
-.form{
-   width: calc( 100vw - 4.5rem);
-   border-bottom: 1px solid #ccc;
-   padding: 1rem 16rem;
+.form {
+  width: calc(100vw - 4.5rem);
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 16rem;
 }
-.headerContainer{
-   padding: 0.25rem 1rem 0 1rem;
-   margin-bottom: 1rem;
+.headerContainer {
+  padding: 0.25rem 1rem 0 1rem;
+  margin-bottom: 1rem;
 }
-.header{
-   font-size: 1.5rem;
+.header {
+  font-size: 1.5rem;
+  padding-left: 1rem;
 }
-.subheader{
-   font-size: 0.85rem;
-   color: #666;
+.subheader {
+  font-size: 0.85rem;
+  color: #666;
 }

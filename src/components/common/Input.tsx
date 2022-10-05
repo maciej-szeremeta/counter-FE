@@ -12,6 +12,7 @@ interface Error{
 interface Props{
   type: 'text' | 'number' | 'password';
   name: string;
+  placeholder?: string;
   icon?: IconProp;
   iconColor?: string;
   value?: string | string[] | number;
@@ -19,7 +20,7 @@ interface Props{
   handleChange:Dispatch<SetStateAction<string>>;
 }
 
-export function Input({ type = 'text', name, icon, iconColor='#000', value, error, handleChange, }: Props) {
+export function Input({ type = 'text', name, placeholder='', icon, iconColor='#000', value, error, handleChange, }: Props) {
   const messages = error?.error;
   return (
     <div className={styles.container}>
@@ -29,6 +30,7 @@ export function Input({ type = 'text', name, icon, iconColor='#000', value, erro
           className={styles.input}
           type={type}
           name={name}
+          placeholder={placeholder}
           style={icon && { marginLeft: '0px', }}
           value={value}
           onChange={e => 
