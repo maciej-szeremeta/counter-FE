@@ -1,13 +1,25 @@
 /* eslint-disable react/jsx-key */
 
-import React, { useEffect, useMemo, } from 'react';
+import React, { useEffect, useMemo, useState, } from 'react';
 import { useTable, Column, } from 'react-table';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
+import Modal from 'react-modal';
 import { GetAllUsersRes, UserEntity, } from 'types';
 
 import styles from './UsersTable.module.css';
 import { Button, } from './common';
 
+const customStyles = {
+  content: {
+    top        : '50%',
+    left       : '50%',
+    right      : 'auto',
+    bottom     : 'auto',
+    marginRight: '-50%',
+    transform  : 'translate(-50%, -50%)',
+  },
+};
+Modal.setAppElement('#yourAppElement');
 interface GetData {
   isError: boolean;
   isLoading: boolean;
@@ -23,6 +35,15 @@ interface Props{
 export function UsersTable({ className, getData, }: Props) {
   const { isError, isLoading, error, refetch, users, } = getData;
 
+  const [ modalIsOpen, setIsOpen, ] = useState(false);
+  console.log(modalIsOpen);
+  
+  const openModal=() => {
+    setIsOpen(true);
+  };
+  const closeModal=() => {
+    setIsOpen(false);
+  };
   useEffect(
     () => {
       refetch();
@@ -59,7 +80,28 @@ export function UsersTable({ className, getData, }: Props) {
         Cell    : row => {
           const { value, } = row;
           return <Button href={`${value}`} text='Więcej'/>;
-        }, }, ]), []
+        }, },
+        { Header: () =>
+          null,
+        id      : 'delete',
+        accessor: 'id',
+        Cell    : row => {
+          const { value, } = row;
+          return <>
+            <Button
+              handleClick={() => 
+                openModal}
+              text='Usuń'
+              type='button'/>
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              style={customStyles}
+              contentLabel='Example Modal'>
+              <h1>Modalek</h1>
+            </Modal>
+          </>;
+        }, }, ]), [ modalIsOpen, ]
   );
 
   const { getTableProps, headerGroups, getTableBodyProps, rows, prepareRow, } = useTable({ data, columns, });
