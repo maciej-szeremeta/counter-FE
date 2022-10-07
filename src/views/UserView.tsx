@@ -17,7 +17,7 @@ export function UserView() {
   const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
   
   const { isLoading, isError, error, refetch, } = useQuery<GetAllUsersRes, Error>(
-    'user', async ():Promise<GetAllUsersRes> => {
+    [ 'user', ], async ():Promise<GetAllUsersRes> => {
       const res = await fetch(
         `${apiUrl}/user`, {
           credentials: 'include',
@@ -30,6 +30,12 @@ export function UserView() {
 
       setUsers( data);
       return data;
+    }, {
+      initialData         : [],
+      refetchOnWindowFocus: true,
+      refetchOnMount      : true,
+      refetchOnReconnect  : true,
+      
     }
   );
   
