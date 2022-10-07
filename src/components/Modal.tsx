@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, } from 'react';
 import Modal from 'react-modal';
 import { Button, } from './common';
-import styles from './Modal.module.css';
 
 const customStyles = {
   content: {
