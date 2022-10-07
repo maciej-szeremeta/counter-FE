@@ -5,21 +5,14 @@ import { useTable, Column, } from 'react-table';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
 import Modal from 'react-modal';
 import { GetAllUsersRes, UserEntity, } from 'types';
+import { Button, } from './common';
+import { ModalDelete, } from './Modal';
 
 import styles from './UsersTable.module.css';
-import { Button, } from './common';
+import { apiUrl, } from '../config/api';
 
-const customStyles = {
-  content: {
-    top        : '50%',
-    left       : '50%',
-    right      : 'auto',
-    bottom     : 'auto',
-    marginRight: '-50%',
-    transform  : 'translate(-50%, -50%)',
-  },
-};
-Modal.setAppElement('#yourAppElement');
+Modal.setAppElement('#root');
+
 interface GetData {
   isError: boolean;
   isLoading: boolean;
@@ -35,20 +28,24 @@ interface Props{
 export function UsersTable({ className, getData, }: Props) {
   const { isError, isLoading, error, refetch, users, } = getData;
 
-  const [ modalIsOpen, setIsOpen, ] = useState(false);
-  console.log(modalIsOpen);
-  
-  const openModal=() => {
-    setIsOpen(true);
-  };
-  const closeModal=() => {
-    setIsOpen(false);
-  };
+  const [ modalIsOpen, setIsOpen, ] = useState<boolean>(false);
+  const [ deleteId, setDeleteId, ] = useState<string>('');
+
   useEffect(
     () => {
       refetch();
     }, [ refetch, ]
   );
+
+  const handleDeleteUser = async (id: string) => {
+    await fetch(
+      `${apiUrl}/user/${id}`, {
+        method     : 'DELETE',
+        credentials: 'include',
+      }
+    );
+    refetch();
+  };
 
   const data = useMemo(
     ():GetAllUsersRes|[] =>
@@ -87,21 +84,15 @@ export function UsersTable({ className, getData, }: Props) {
         accessor: 'id',
         Cell    : row => {
           const { value, } = row;
-          return <>
-            <Button
-              handleClick={() => 
-                openModal}
-              text='Usuń'
-              type='button'/>
-            <Modal
-              isOpen={modalIsOpen}
-              onRequestClose={closeModal}
-              style={customStyles}
-              contentLabel='Example Modal'>
-              <h1>Modalek</h1>
-            </Modal>
-          </>;
-        }, }, ]), [ modalIsOpen, ]
+          return (<Button
+            handleClick={() => {
+              setDeleteId(value);
+              setIsOpen(true);
+            }}
+            text='Usuń'
+            type='button' />
+          );
+        }, }, ]), [ ]
   );
 
   const { getTableProps, headerGroups, getTableBodyProps, rows, prepareRow, } = useTable({ data, columns, });
@@ -137,6 +128,7 @@ export function UsersTable({ className, getData, }: Props) {
         })}
       </tbody>
     </table>
+    <ModalDelete visible={modalIsOpen} setVisible={setIsOpen} deleteId={deleteId} handleClick={handleDeleteUser } />
   </>
   );
 };
