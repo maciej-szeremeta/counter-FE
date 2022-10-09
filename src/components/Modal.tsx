@@ -1,5 +1,8 @@
-import React, { Dispatch, SetStateAction, } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
+import { useDispatch, useSelector, } from 'react-redux';
+import { openModal, } from '../features/open/openSlice';
+import { RootState, } from '../store';
 import { Button, } from './common';
 
 const customStyles = {
@@ -13,26 +16,28 @@ const customStyles = {
   },
 };
 interface Props{
-   visible: boolean;
-   setVisible: Dispatch<SetStateAction<boolean>>;
   deleteId: string;
-  handleClick:(id:string)=>void
+  handleClick:(id:string)=>Promise<void>;
 }
-export function ModalDelete({ visible, setVisible, deleteId, handleClick, }:Props) {
+export function ModalDelete({ deleteId, handleClick, }: Props) {
+  const modalIsOpen = useSelector((state:RootState) => 
+    state.open.openModal);
+  const dispatch = useDispatch();
+  
   return (
     <Modal
-      isOpen={visible}
+      isOpen={modalIsOpen}
       onRequestClose={() => 
-        setVisible(false)}
+        dispatch(openModal())}
       style={customStyles}
       contentLabel='Example Modal'>
       <h1>Modalek</h1>
       <p>Czy chcesz usunąć {deleteId}</p>
       <Button text='Anuluj' handleClick={() => 
-        setVisible(false)} />
+        dispatch(openModal())} />
       <Button text='Usuń' handleClick={() => {
         handleClick(deleteId);
-        setVisible(false);
+        dispatch(openModal());
       }} />
     </Modal>
   );

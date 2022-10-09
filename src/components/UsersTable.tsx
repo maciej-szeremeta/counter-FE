@@ -5,11 +5,13 @@ import { useTable, Column, } from 'react-table';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
 import Modal from 'react-modal';
 import { GetAllUsersRes, UserEntity, } from 'types';
+import { useDispatch, } from 'react-redux';
 import { Button, } from './common';
 import { ModalDelete, } from './Modal';
 
 import styles from './UsersTable.module.css';
 import { apiUrl, } from '../config/api';
+import { openModal, } from '../features/open/openSlice';
 
 Modal.setAppElement('#root');
 
@@ -28,14 +30,9 @@ interface Props{
 export function UsersTable({ className, getData, }: Props) {
   const { isError, isLoading, error, refetch, users, } = getData;
 
-  const [ modalIsOpen, setIsOpen, ] = useState<boolean>(false);
-  const [ deleteId, setDeleteId, ] = useState<string>('');
+  const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      refetch();
-    }, [ refetch, ]
-  );
+  const [ deleteId, setDeleteId, ] = useState<string>('');
 
   const handleDeleteUser = async (id: string) => {
     await fetch(
@@ -46,6 +43,12 @@ export function UsersTable({ className, getData, }: Props) {
     );
     refetch();
   };
+
+  useEffect(
+    () => {
+      refetch();
+    }, [ refetch, ]
+  );
 
   const data = useMemo(
     ():GetAllUsersRes|[] =>
@@ -87,12 +90,12 @@ export function UsersTable({ className, getData, }: Props) {
           return (<Button
             handleClick={() => {
               setDeleteId(value);
-              setIsOpen(true);
+              dispatch(openModal());
             }}
             text='Usuń'
             type='button' />
           );
-        }, }, ]), [ ]
+        }, }, ]), [ dispatch, ]
   );
 
   const { getTableProps, headerGroups, getTableBodyProps, rows, prepareRow, } = useTable({ data, columns, });
@@ -128,7 +131,7 @@ export function UsersTable({ className, getData, }: Props) {
         })}
       </tbody>
     </table>
-    <ModalDelete visible={modalIsOpen} setVisible={setIsOpen} deleteId={deleteId} handleClick={handleDeleteUser } />
+    <ModalDelete deleteId={deleteId} handleClick={handleDeleteUser } />
   </>
   );
 };

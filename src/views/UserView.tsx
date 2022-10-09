@@ -2,18 +2,19 @@
 import React, { FormEvent, useState, } from 'react';
 import { GetAllUsersRes, } from 'types';
 import { useQuery, } from 'react-query';
+import { useSelector, } from 'react-redux';
+
+import { apiUrl, } from '../config/api';
+import { RootState, } from '../store';
+
 import { Button, Input, } from '../components/common';
 import { FormAdd, Main, Navigation, UsersTable, } from '../components';
+
 import styles from './UserView.module.css';
-import { apiUrl, } from '../config/api';
 
 export function UserView() {
-  const [ visibleForm, setVisibleForm, ] = useState(false);
-  
-  const [ email, setEmail, ] = useState('');
-  const [ pwd, setPwd, ] = useState('');
-  const [ errors, setError, ] = useState([]); 
-  
+
+  // Get Users
   const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
   
   const { isLoading, isError, error, refetch, } = useQuery<GetAllUsersRes, Error>(
@@ -37,7 +38,15 @@ export function UserView() {
       refetchOnReconnect  : true,
       
     }
-  );
+  );  
+
+  // Add User
+  const visibleForm = useSelector((state:RootState) => 
+    state.open.openForm);
+  
+  const [ email, setEmail, ] = useState('');
+  const [ pwd, setPwd, ] = useState('');
+  const [ errors, setError, ] = useState([]); 
   
   const handleSubmit = async (e:FormEvent) => {
     e.preventDefault();
@@ -67,7 +76,7 @@ export function UserView() {
   return (
     <Main>
       <div className={styles.wrapper}>
-        <Navigation visible={setVisibleForm} />
+        <Navigation/>
         <div className={styles.container}>
           <div className={styles.addUserForm}>
             {visibleForm &&
@@ -94,7 +103,10 @@ export function UserView() {
                 />
               </FormAdd>}
           </div>
-          <UsersTable className={styles.userInfo} getData={{ isError, isLoading, error, refetch, users, } } />
+          <UsersTable
+            className={styles.userInfo}
+            getData={{ isError, isLoading, error, refetch, users, }}
+          />
         </div>
       </div>
     </Main>
