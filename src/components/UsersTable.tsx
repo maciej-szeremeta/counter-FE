@@ -7,10 +7,8 @@ import Modal from 'react-modal';
 import { GetAllUsersRes, UserEntity, } from 'types';
 import { useDispatch, useSelector, } from 'react-redux';
 import { Button, } from './common';
-import { ModalDelete, } from './Modal';
 
 import styles from './UsersTable.module.css';
-import { apiUrl, } from '../config/api';
 import { openModal, } from '../features/open/openSlice';
 import { setUserId, } from '../features/user/userSlice';
 import { RootState, } from '../store';
@@ -30,22 +28,12 @@ interface Props{
 
 export function UsersTable({ className, getData, }: Props) {
 
-  const { users, userId, } = useSelector((state:RootState) => 
+  const { users, } = useSelector((state:RootState) => 
     state.user);
   
   const { isError, isLoading, error, refetch, } = getData;
 
   const dispatch = useDispatch();
-
-  const handleDeleteUser = async (id: string) => {
-    await fetch(
-      `${apiUrl}/user/${id}`, {
-        method     : 'DELETE',
-        credentials: 'include',
-      }
-    );
-    refetch();
-  };
 
   useEffect(
     () => {
@@ -134,7 +122,6 @@ export function UsersTable({ className, getData, }: Props) {
         })}
       </tbody>
     </table>
-    <ModalDelete deleteId={userId} handleClick={handleDeleteUser } />
   </>
   );
 };

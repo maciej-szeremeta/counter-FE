@@ -1,5 +1,5 @@
 /* eslint-disable no-sequences */
-import React, { FormEvent, useState, } from 'react';
+import React from 'react';
 import { GetAllUsersRes, } from 'types';
 import { useQuery, } from 'react-query';
 import { useDispatch, useSelector, } from 'react-redux';
@@ -7,16 +7,16 @@ import { useDispatch, useSelector, } from 'react-redux';
 import { apiUrl, } from '../config/api';
 import { RootState, } from '../store';
 
-import { Button, Input, } from '../components/common';
-import { FormAdd, Main, Navigation, UsersTable, } from '../components';
+import { FormAdd, Main, ModalDelete, Navigation, UsersTable, } from '../components';
 
 import styles from './UserView.module.css';
 import { getUsers, } from '../features/user/userSlice';
 
 export function UserView() {
+  
+  const visibleForm = useSelector((state:RootState) => 
+    state.open.openForm);
 
-  // Get Users
-  // const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
   const dispatch = useDispatch();
   
   const { isLoading, isError, error, refetch, } = useQuery<GetAllUsersRes, Error>(
@@ -42,39 +42,6 @@ export function UserView() {
     }
   );  
 
-  // Add User
-  const visibleForm = useSelector((state:RootState) => 
-    state.open.openForm);
-  
-  const [ email, setEmail, ] = useState('');
-  const [ pwd, setPwd, ] = useState('');
-  const [ errors, setError, ] = useState([]); 
-  
-  const handleSubmit = async (e:FormEvent) => {
-    e.preventDefault();
-
-    const req = await fetch(
-      `${apiUrl}/user/register-user`, {
-        method     : 'POST',
-        headers    : { 'Content-Type': 'application/json', },
-        credentials: 'include',
-        body       : JSON.stringify({ email, pwd, }),
-      }
-    );
-
-    const data = await req.json();
-
-    if (data.statusCode === 400) {
-      setError(data.message);
-    }
-    else {
-      setEmail('');
-      setPwd('');
-      setError([]);
-      refetch();
-    }
-  };
-
   return (
     <Main>
       <div className={styles.wrapper}>
@@ -82,28 +49,9 @@ export function UserView() {
         <div className={styles.container}>
           <div className={styles.addUserForm}>
             {visibleForm &&
-              <FormAdd header='Dodawanie użytkownika'>
-                <Input
-                  type='text'
-                  name='email'
-                  value={email}
-                  placeholder='Email'
-                  handleChange={setEmail}
-                  error={{ error: errors, valid: 'email', }} />
-                <Input
-                  type='password'
-                  name='pwd'
-                  value={pwd}
-                  placeholder='Hasło'
-                  handleChange={setPwd}
-                  error={{ error: errors, valid: 'hasło', }}
-                />
-                <Button
-                  text='Dodaj'
-                  type='submit'
-                  handleClick={handleSubmit}
-                />
-              </FormAdd>}
+              <FormAdd
+                header='Dodawanie użytkownika'
+                refetch={ refetch }/>}
           </div>
           <UsersTable
             className={styles.userInfo}
@@ -111,6 +59,7 @@ export function UserView() {
           />
         </div>
       </div>
+      <ModalDelete refetch={ refetch } />
     </Main>
   );
 };
