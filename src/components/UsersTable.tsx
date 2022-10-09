@@ -1,17 +1,19 @@
 /* eslint-disable react/jsx-key */
 
-import React, { useEffect, useMemo, useState, } from 'react';
+import React, { useEffect, useMemo, } from 'react';
 import { useTable, Column, } from 'react-table';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
 import Modal from 'react-modal';
 import { GetAllUsersRes, UserEntity, } from 'types';
-import { useDispatch, } from 'react-redux';
+import { useDispatch, useSelector, } from 'react-redux';
 import { Button, } from './common';
 import { ModalDelete, } from './Modal';
 
 import styles from './UsersTable.module.css';
 import { apiUrl, } from '../config/api';
 import { openModal, } from '../features/open/openSlice';
+import { setUserId, } from '../features/user/userSlice';
+import { RootState, } from '../store';
 
 Modal.setAppElement('#root');
 
@@ -20,7 +22,6 @@ interface GetData {
   isLoading: boolean;
   error: Error | null;
   refetch: <TPageData>(options?: RefetchOptions & RefetchQueryFilters<TPageData>) => Promise<QueryObserverResult<unknown, unknown>>;
-  users: GetAllUsersRes | [];
 }
 interface Props{
   className?: string;
@@ -28,11 +29,13 @@ interface Props{
 }
 
 export function UsersTable({ className, getData, }: Props) {
-  const { isError, isLoading, error, refetch, users, } = getData;
+
+  const { users, userId, } = useSelector((state:RootState) => 
+    state.user);
+  
+  const { isError, isLoading, error, refetch, } = getData;
 
   const dispatch = useDispatch();
-
-  const [ deleteId, setDeleteId, ] = useState<string>('');
 
   const handleDeleteUser = async (id: string) => {
     await fetch(
@@ -89,7 +92,7 @@ export function UsersTable({ className, getData, }: Props) {
           const { value, } = row;
           return (<Button
             handleClick={() => {
-              setDeleteId(value);
+              dispatch(setUserId(value));
               dispatch(openModal());
             }}
             text='Usuń'
@@ -131,7 +134,7 @@ export function UsersTable({ className, getData, }: Props) {
         })}
       </tbody>
     </table>
-    <ModalDelete deleteId={deleteId} handleClick={handleDeleteUser } />
+    <ModalDelete deleteId={userId} handleClick={handleDeleteUser } />
   </>
   );
 };

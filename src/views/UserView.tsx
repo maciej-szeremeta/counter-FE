@@ -2,7 +2,7 @@
 import React, { FormEvent, useState, } from 'react';
 import { GetAllUsersRes, } from 'types';
 import { useQuery, } from 'react-query';
-import { useSelector, } from 'react-redux';
+import { useDispatch, useSelector, } from 'react-redux';
 
 import { apiUrl, } from '../config/api';
 import { RootState, } from '../store';
@@ -11,11 +11,13 @@ import { Button, Input, } from '../components/common';
 import { FormAdd, Main, Navigation, UsersTable, } from '../components';
 
 import styles from './UserView.module.css';
+import { getUsers, } from '../features/user/userSlice';
 
 export function UserView() {
 
   // Get Users
-  const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
+  // const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
+  const dispatch = useDispatch();
   
   const { isLoading, isError, error, refetch, } = useQuery<GetAllUsersRes, Error>(
     [ 'user', ], async ():Promise<GetAllUsersRes> => {
@@ -29,7 +31,7 @@ export function UserView() {
       }
       const data = await res.json();
 
-      setUsers( data);
+      dispatch(getUsers(data));
       return data;
     }, {
       initialData         : [],
@@ -105,7 +107,7 @@ export function UserView() {
           </div>
           <UsersTable
             className={styles.userInfo}
-            getData={{ isError, isLoading, error, refetch, users, }}
+            getData={{ isError, isLoading, error, refetch, }}
           />
         </div>
       </div>

@@ -6,14 +6,20 @@ import { apiUrl, } from '../../config/api';
 
 export interface userState {
   users: GetAllUsersRes | [];
+  userId:string
 }
 
 const initialState: userState = {
-  users: [],
+  users : [],
+  userId: '',
 };
 
-interface DeleteUser{
-   payload: { id: string, }
+interface GetUsers{
+   payload: GetAllUsersRes
+}
+
+interface SetUserId{
+  payload:string
 }
 
 export const userSlice = createSlice({
@@ -21,21 +27,19 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
 
-    deleteUser: (
-      state, action:DeleteUser
+    getUsers: (
+      state, action:GetUsers
     ) => {
-      (async () => {
-        await fetch(
-          `${apiUrl}/user/${action.payload.id}`, {
-            method     : 'DELETE',
-            credentials: 'include',
-          }
-        );
-      })();
+      state.users = action.payload; 
+    },
+    setUserId(
+      state, action: SetUserId
+    ) {
+      state.userId=action.payload;
     },
   },
 });
 
-export const { deleteUser, } = userSlice.actions;
+export const { getUsers, setUserId, } = userSlice.actions;
 
 export default userSlice.reducer;
