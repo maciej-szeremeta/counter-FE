@@ -1,19 +1,21 @@
 
-import React, { Dispatch, SetStateAction, } from 'react';
+import React from 'react';
+import { useDispatch, } from 'react-redux';
+
+import { openForm, } from '../features/open/openSlice';
+
 import styles from './Navigation.module.css';
 
-interface Props{
-  visible:Dispatch<SetStateAction<boolean>>
-}
+export function Navigation() {
+  
+  const dispatch = useDispatch();
 
-export function Navigation({ visible, }:Props) {
   return (
     <div className={styles.navigation} >
       <button type='button'
         className={styles.addBtn}
         onClick={() => 
-          visible((value: boolean):boolean => 
-            !value)}>
+          dispatch(openForm())}>
         +
       </button>
     </div>

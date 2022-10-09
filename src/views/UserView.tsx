@@ -1,20 +1,23 @@
 /* eslint-disable no-sequences */
-import React, { FormEvent, useState, } from 'react';
+import React from 'react';
 import { GetAllUsersRes, } from 'types';
 import { useQuery, } from 'react-query';
-import { Button, Input, } from '../components/common';
-import { FormAdd, Main, Navigation, UsersTable, } from '../components';
-import styles from './UserView.module.css';
+import { useDispatch, useSelector, } from 'react-redux';
+
 import { apiUrl, } from '../config/api';
+import { RootState, } from '../store';
+
+import { FormAdd, Main, ModalDelete, Navigation, UsersTable, } from '../components';
+
+import styles from './UserView.module.css';
+import { getUsers, } from '../features/user/userSlice';
 
 export function UserView() {
-  const [ visibleForm, setVisibleForm, ] = useState(false);
   
-  const [ email, setEmail, ] = useState('');
-  const [ pwd, setPwd, ] = useState('');
-  const [ errors, setError, ] = useState([]); 
-  
-  const [ users, setUsers, ] = useState<GetAllUsersRes|[]>([]);
+  const visibleForm = useSelector((state:RootState) => 
+    state.open.openForm);
+
+  const dispatch = useDispatch();
   
   const { isLoading, isError, error, refetch, } = useQuery<GetAllUsersRes, Error>(
     [ 'user', ], async ():Promise<GetAllUsersRes> => {
@@ -28,7 +31,7 @@ export function UserView() {
       }
       const data = await res.json();
 
-      setUsers( data);
+      dispatch(getUsers(data));
       return data;
     }, {
       initialData         : [],
@@ -37,66 +40,26 @@ export function UserView() {
       refetchOnReconnect  : true,
       
     }
-  );
-  
-  const handleSubmit = async (e:FormEvent) => {
-    e.preventDefault();
-
-    const req = await fetch(
-      `${apiUrl}/user/register-user`, {
-        method     : 'POST',
-        headers    : { 'Content-Type': 'application/json', },
-        credentials: 'include',
-        body       : JSON.stringify({ email, pwd, }),
-      }
-    );
-
-    const data = await req.json();
-
-    if (data.statusCode === 400) {
-      setError(data.message);
-    }
-    else {
-      setEmail('');
-      setPwd('');
-      setError([]);
-      refetch();
-    }
-  };
+  );  
 
   return (
     <Main>
       <div className={styles.wrapper}>
-        <Navigation visible={setVisibleForm} />
+        <Navigation/>
         <div className={styles.container}>
           <div className={styles.addUserForm}>
             {visibleForm &&
-              <FormAdd header='Dodawanie użytkownika'>
-                <Input
-                  type='text'
-                  name='email'
-                  value={email}
-                  placeholder='Email'
-                  handleChange={setEmail}
-                  error={{ error: errors, valid: 'email', }} />
-                <Input
-                  type='password'
-                  name='pwd'
-                  value={pwd}
-                  placeholder='Hasło'
-                  handleChange={setPwd}
-                  error={{ error: errors, valid: 'hasło', }}
-                />
-                <Button
-                  text='Dodaj'
-                  type='submit'
-                  handleClick={handleSubmit}
-                />
-              </FormAdd>}
+              <FormAdd
+                header='Dodawanie użytkownika'
+                refetch={ refetch }/>}
           </div>
-          <UsersTable className={styles.userInfo} getData={{ isError, isLoading, error, refetch, users, } } />
+          <UsersTable
+            className={styles.userInfo}
+            getData={{ isError, isLoading, error, refetch, }}
+          />
         </div>
       </div>
+      <ModalDelete refetch={ refetch } />
     </Main>
   );
 };

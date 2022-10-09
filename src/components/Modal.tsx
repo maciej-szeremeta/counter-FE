@@ -1,6 +1,12 @@
-import React, { Dispatch, SetStateAction, } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
+import { useDispatch, useSelector, } from 'react-redux';
+import { apiUrl, } from '../config/api';
+import { openModal, } from '../features/open/openSlice';
+import { RootState, } from '../store';
 import { Button, } from './common';
+import styles from './Modal.module.css';
 
 const customStyles = {
   content: {
@@ -13,27 +19,44 @@ const customStyles = {
   },
 };
 interface Props{
-   visible: boolean;
-   setVisible: Dispatch<SetStateAction<boolean>>;
-  deleteId: string;
-  handleClick:(id:string)=>void
+  refetch: <TPageData>(options?: RefetchOptions & RefetchQueryFilters<TPageData>) => Promise<QueryObserverResult<unknown, unknown>>;
 }
-export function ModalDelete({ visible, setVisible, deleteId, handleClick, }:Props) {
+export function ModalDelete({ refetch, }: Props) {
+  const modalIsOpen = useSelector((state:RootState) => 
+    state.open.openModal);
+  const { userId, } = useSelector((state:RootState) => 
+    state.user);
+  const dispatch = useDispatch();
+
+  const handleDeleteUser = async (id: string) => {
+    await fetch(
+      `${apiUrl}/user/${id}`, {
+        method     : 'DELETE',
+        credentials: 'include',
+      }
+    );
+    refetch();
+  };
   return (
     <Modal
-      isOpen={visible}
+      isOpen={modalIsOpen}
       onRequestClose={() => 
-        setVisible(false)}
+        dispatch(openModal())}
       style={customStyles}
       contentLabel='Example Modal'>
-      <h1>Modalek</h1>
-      <p>Czy chcesz usunąć {deleteId}</p>
-      <Button text='Anuluj' handleClick={() => 
-        setVisible(false)} />
-      <Button text='Usuń' handleClick={() => {
-        handleClick(deleteId);
-        setVisible(false);
-      }} />
+      <h1 className={styles.title}>Usówanie użytkownika !</h1>
+      <p className={styles.subtitle }>Czy chcesz usunąć użytownika o numerze id : <span className={styles.userId}>{userId}</span>.</p>
+      <div className={styles.buttonGroup} >
+
+        <Button text='Anuluj' handleClick={() => 
+          dispatch(openModal())} />
+        
+        <Button text='Usuń' handleClick={() => {
+          handleDeleteUser(userId);
+          dispatch(openModal());
+        }} />
+
+      </div>
     </Modal>
   );
 };
