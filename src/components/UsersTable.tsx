@@ -4,14 +4,14 @@ import React, { useEffect, useMemo, } from 'react';
 import { useTable, Column, } from 'react-table';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
 import Modal from 'react-modal';
-import { GetAllUsersRes, UserEntity, } from 'types';
 import { useDispatch, useSelector, } from 'react-redux';
-import { Button, } from './common';
-
-import styles from './UsersTable.module.css';
-import { openModal, } from '../features/open/openSlice';
+import { GetAllUsersRes, UserEntity, } from 'types';
+import { openForm, openModal, } from '../features/open/openSlice';
 import { setUserId, } from '../features/user/userSlice';
 import { RootState, } from '../store';
+
+import { Button, } from './common';
+import styles from './UsersTable.module.css';
 
 Modal.setAppElement('#root');
 
@@ -86,6 +86,21 @@ export function UsersTable({ className, getData, }: Props) {
             text='Usuń'
             type='button' />
           );
+        }, },
+        { Header: () =>
+          null,
+        id      : 'edit',
+        accessor: 'id',
+        Cell    : row => {
+          const { value, } = row;
+          return (<Button
+            handleClick={() => {
+              dispatch(setUserId(value));
+              dispatch(openForm());
+            }}
+            text='Edytuj'
+            type='button' />
+          );
         }, }, ]), [ dispatch, ]
   );
 
@@ -96,7 +111,7 @@ export function UsersTable({ className, getData, }: Props) {
   
   return (<>
     {isLoading && (<p>Loading...</p>)}
-    {isError && (<p>`Brak połączenia z bazą: {error?.message}`</p>)}
+    {isError && (<p>Brak połączenia z bazą: {error?.message}</p>)}
     <table className={styles.userTable} {...getTableProps()} cellSpacing='0'>
       <thead >
         {headerGroups.map(headerGroup =>

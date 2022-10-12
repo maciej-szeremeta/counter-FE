@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, } from 'react-query';
 import { useDispatch, useSelector, } from 'react-redux';
+import { setUserId, } from '../features/user/userSlice';
 import { apiUrl, } from '../config/api';
 import { openModal, } from '../features/open/openSlice';
 import { RootState, } from '../store';
@@ -48,11 +49,15 @@ export function ModalDelete({ refetch, }: Props) {
       <p className={styles.subtitle }>Czy chcesz usunąć użytownika o numerze id : <span className={styles.userId}>{userId}</span>.</p>
       <div className={styles.buttonGroup} >
 
-        <Button text='Anuluj' handleClick={() => 
-          dispatch(openModal())} />
+        <Button text='Anuluj' handleClick={() => {
+          dispatch(setUserId(''));
+          dispatch(openModal());
+        }
+        } />
         
         <Button text='Usuń' handleClick={() => {
           handleDeleteUser(userId);
+          dispatch(setUserId(''));
           dispatch(openModal());
         }} />
 
