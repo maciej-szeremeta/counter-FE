@@ -49,9 +49,7 @@ export function UserView() {
         <div className={styles.container}>
           <div className={styles.addUserForm}>
             {visibleForm &&
-              <FormAdd
-                header='Dodawanie użytkownika'
-                refetch={ refetch }/>}
+              <FormAdd header='Dodawanie użytkownika' />}
           </div>
           <UsersTable
             className={styles.userInfo}

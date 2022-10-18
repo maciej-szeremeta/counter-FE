@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, } from 'react-router-dom';
 import { Provider, } from 'react-redux';
 import { QueryClient, QueryClientProvider, } from 'react-query';
+import { ReactQueryDevtools, } from 'react-query/devtools';
 import reportWebVitals from './reportWebVitals';
 import { store, } from './store';
 import { App, } from './App';
@@ -16,6 +17,7 @@ root.render(<React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <App />
+        <ReactQueryDevtools/>
       </QueryClientProvider>
     </BrowserRouter>
   </Provider>
