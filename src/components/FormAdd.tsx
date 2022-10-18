@@ -1,4 +1,4 @@
-import React, { FormEvent, useState, } from 'react';
+import React, { FormEvent, useEffect, useState, } from 'react';
 import { useMutation, useQueryClient, } from 'react-query';
 import { useDispatch, } from 'react-redux';
 import { apiUrl, } from '../config/api';
@@ -11,10 +11,7 @@ interface Props{
   subheader?: string;
 }
 export function FormAdd({ header, subheader, }: Props) {
-
-  // const { userId, } = useSelector((state:RootState) => 
-  //   state.user);
-  
+ 
   const dispatch = useDispatch();
   
   const [ email, setEmail, ] = useState('');
@@ -22,24 +19,6 @@ export function FormAdd({ header, subheader, }: Props) {
   const [ errorValid, setErrorValid, ] = useState([]); 
   const [ errorIsExist, setErrorIsExist, ] = useState([]); 
   
-  // useQuery<GetOneUsersRes, Error>(
-  //   [ 'user', ], async ():Promise<GetOneUsersRes> => {
-  //     const res = await fetch(
-  //       `${apiUrl}/user/${userId}`, {
-  //         credentials: 'include',
-  //       }
-  //     );
-  //     if (!res.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     const data = await res.json();
-  //     if (userId) {
-  //       setEmail(data.user.email);
-  //       setRole(data.user.role);
-  //     }
-  //     return data;
-  //   }
-  // );
   const queryClient = useQueryClient();
 
   const { isLoading, isSuccess, mutate, } = useMutation(
@@ -84,35 +63,16 @@ export function FormAdd({ header, subheader, }: Props) {
     mutate();
   };
 
-  // const addUser = async (e:FormEvent) => {
-  //   e.preventDefault();
+  useEffect(
+    () => {
+      setTimeout(
+        () => {
+          setErrorIsExist([]);
+        }, 10000
+      );
+    }, [ errorIsExist, ]
+  );
 
-  //   const req = await fetch(
-  //     `${apiUrl}/user/register-user`, {
-  //       method     : 'POST',
-  //       headers    : { 'Content-Type': 'application/json', },
-  //       credentials: 'include',
-  //       body       : JSON.stringify({ email, pwd, }),
-  //     }
-  //   );
-
-  //   const data = await req.json();
-
-  //   if (data.statusCode === 400) {
-  //     setError(data.message);
-  //   }
-  //   else {
-  //     setEmail('');
-  //     setPwd('');
-  //     setError([]);
-  //     mutate();
-  //   }
-  // };
-
-  // const saveEditUser = (e: FormEvent) => {
-  //   e.preventDefault();
-  //   console.log('save edit');
-  // };
   return (<>
     {isLoading && <p>Zapisywanie..</p>}
     {isSuccess && <p>Dodany ...</p>}
