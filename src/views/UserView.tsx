@@ -43,7 +43,7 @@ export function UserView() {
           <UsersTable />
         </div>
       </div>
-      {/* <ModalDelete refetch={ refetch } /> */}
+      <ModalDelete/>
     </Main>
   );
 };
