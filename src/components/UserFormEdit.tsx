@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { GetOneUsersRes, } from 'types';
+import { GetOneUserRes, } from 'types';
 import { Input, } from './common';
 import styles from './UserTabelRow.module.css';
 
 interface Props{
    widthRow: number;
-   userID: GetOneUsersRes
+   userID: GetOneUserRes
 }
 
 export function UserFormEdit({ widthRow, userID, }:Props) {

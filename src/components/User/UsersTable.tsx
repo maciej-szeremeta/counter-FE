@@ -1,23 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 // ** Import Basic
-import React, { useEffect, useMemo, useState, } from 'react';
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, useQuery, } from 'react-query';
-import { useDispatch, useSelector, } from 'react-redux';
+import React, { useMemo, useState, } from 'react';
+import { useQuery, } from 'react-query';
+import { useDispatch, } from 'react-redux';
 import Modal from 'react-modal';
 
 // ** Import Types
-// ** Import Variables
-import { apiUrl, } from '../../config/api';
+import { GetAllUsersRes, } from 'types';
 
+// ** Import Variables
 // ** Import Helpers
+import { getUsers, } from '../../helpers/fetch';
+
 // ** Import Store
-import { RootState, } from '../../store';
 import { openForm, openModal, } from '../../features/open/openSlice';
 import { setUserId, } from '../../features/user/userSlice';
 
 // ** Import Components
 import { Button, } from '../common';
-import { UserTableRow, } from '../UserTableRow';
+import { UserTableRow, } from './UserTableRow';
 
 // ** Import Styles
 import styles from './UsersTable.module.css';
@@ -25,55 +26,25 @@ import styles from './UsersTable.module.css';
 Modal.setAppElement('#root');
 
 // ** Interfaces
-interface GetData {
-  isError: boolean;
-  isLoading: boolean;
-  error: Error | null;
-  refetch: <TPageData>(options?: RefetchOptions & RefetchQueryFilters<TPageData>) => Promise<QueryObserverResult<unknown, unknown>>;
-}
-
-interface Props{
-  className?: string;
-  getData: GetData;
-}
-
-export function UsersTable({ className, getData, }: Props) {
+export function UsersTable() {
 
   // ** Global States
   const dispatch = useDispatch();
-  const { users, } = useSelector((state:RootState) => 
-    state.user);
   
   // ** Local States
-  const [ selected, setSelected, ] = useState<string | null>(null);
-  
-  const { isError, isLoading, error, refetch, } = getData;
+  const [ selected, setSelected, ] = useState<string | null>('');
 
-  useEffect(
-    () => {
-      refetch();
-    }, [ refetch, ]
-  );
-  
-  const usersF = users.map(user => 
-    ({ id: user.id, email: user.email, role: user.role, zalogowany: user.currentTokenId, }));
-  
-  const {
-    data:userID,
-  } = useQuery(
-    [ 'user', selected, ], async () => {
-      const res = await fetch(
-        `${apiUrl}/user/${selected}`, {
-          credentials: 'include',
-        }
-      );
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return res.json();
+  // ** Api Queries
+  const { isLoading, isError, error, data, } = useQuery<GetAllUsersRes, Error>(
+    [ 'users', ], getUsers, {
+      initialData         : [],
+      refetchOnWindowFocus: true,
+      refetchOnMount      : true,
+      refetchOnReconnect  : true,
     }
-  );
-  
+  );  
+
+  // ** Memo Data
   const columns= useMemo(
     () =>
       ([ { header: 'id', label: 'Lp.', },
@@ -85,15 +56,17 @@ export function UsersTable({ className, getData, }: Props) {
         { header: 'usuń', label: 'Usuń', },
       ]), []
   );
-  const data = useMemo(
+
+  const rows = useMemo(
     () =>
-      (usersF), [ usersF, ]
+      (data), [ data, ]
   );
-    
+  
+  // ** Handlers
   const isEven = (i:number) =>
     i % 2 === 0;
   
-  return (<>
+  return (<div className={ styles.userInfo }>
     {isLoading && (<p>Loading...</p>)}
     {isError && (<p>Brak połączenia z bazą: {error?.message}</p>)}
     <table className={styles.userTable} cellSpacing='0'>
@@ -104,12 +77,12 @@ export function UsersTable({ className, getData, }: Props) {
         </tr>
       </thead>
       <tbody>
-        { data.map((
+        { rows?.map((
           row, i
         ) => 
           (
             <>
-              <tr key={row.email} className={isEven(i + 1) ? `${styles.rowEven}` : ''}>
+              <tr key={row.id} className={isEven(i + 1) ? `${styles.rowEven}` : ''}>
 
                 <td className={`${styles.tData} ${styles.row}`}>
                   {i + 1}
@@ -121,14 +94,16 @@ export function UsersTable({ className, getData, }: Props) {
                   {row.role}
                 </td>
                 <td className={`${styles.tData} ${styles.row}`}>
-                  {row.zalogowany ? 'Tak' : ''}
+                  {row.currentTokenId ? 'Tak' : ''}
                 </td>
                 <td className={`${styles.tData} ${styles.row}`}>
                   <span />
                   <Button
                     text={selected ===row.id?'✕ Mniej':'✓ Więcej'}
-                    handleClick={() => 
-                        selected === row.id ? setSelected(null) : setSelected(row.id)
+                    handleClick={() => {
+                      dispatch(setUserId(row.id));
+                      return selected === row.id ? setSelected(null) : setSelected(row.id);
+                    }
                     }/>
                 </td>
                 <td className={`${styles.tData} ${styles.row}`}>
@@ -143,7 +118,6 @@ export function UsersTable({ className, getData, }: Props) {
                 <td className={`${styles.tData} ${styles.row}`}>
                   <Button
                     handleClick={() => {
-
                       dispatch(setUserId(row.id));
                       dispatch(openModal());
                     }}
@@ -151,13 +125,12 @@ export function UsersTable({ className, getData, }: Props) {
                     type='button' />
                 </td>
               </tr>
-              {selected === row.id && userID? <UserTableRow
+              {selected === row.id? <UserTableRow
                 widthRow={columns.length}
-                userID={userID }
               /> : null}
             </>))}
       </tbody>
     </table>
-  </>
+  </div>
   );
 };

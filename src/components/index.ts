@@ -9,4 +9,4 @@ export * from './layout/Main';
 
 // ** User
 export * from './User/UsersTable';
-export * from './UserTableRow';
+export * from './User/UserTableRow';
