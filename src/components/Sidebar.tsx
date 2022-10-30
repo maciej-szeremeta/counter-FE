@@ -5,7 +5,7 @@ import { Icon, ListItem, } from './common';
 import { List, } from './List';
 
 import styles from './Sidebar.module.css';
-import { RootState, } from '../store';
+import { RootState, } from '../redux/store';
 
 interface Props{
   handleHidden:Dispatch<SetStateAction<boolean>>

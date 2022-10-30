@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, } from 'react-redux';
 import { Routes, Route, Navigate, } from 'react-router-dom';
-import type { RootState, } from './store';
+import type { RootState, } from './redux/store';
 import { HomeView, LoginView, UserView, } from './views';
 
 export function App() {

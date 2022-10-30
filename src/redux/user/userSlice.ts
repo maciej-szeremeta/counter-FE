@@ -2,16 +2,19 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, } from '@reduxjs/toolkit';
 import { GetAllUsersRes, } from 'types';
-import { apiUrl, } from '../../config/api';
 
 export interface userState {
   users: GetAllUsersRes | [];
-  userId:string
+  userId: string;
+  userErrorValid: string[];
+  userUserErrorIsExist: string[];
 }
 
 const initialState: userState = {
-  users : [],
-  userId: '',
+  users               : [],
+  userId              : '',
+  userErrorValid      : [],
+  userUserErrorIsExist: [],
 };
 
 interface GetUsers{
@@ -20,6 +23,14 @@ interface GetUsers{
 
 interface SetUserId{
   payload:string
+}
+
+interface SetUserErrorValid{
+  payload:string[]
+}
+
+interface SetUserErrorIsExist{
+  payload:string[]
 }
 
 export const userSlice = createSlice({
@@ -37,9 +48,19 @@ export const userSlice = createSlice({
     ) {
       state.userId=action.payload;
     },
+    setUserErrorValid(
+      state, action: SetUserErrorValid
+    ) {
+      state.userErrorValid=action.payload;
+    },
+    setUserErrorIsExist(
+      state, action: SetUserErrorIsExist
+    ) {
+      state.userUserErrorIsExist=action.payload;
+    },
   },
 });
 
-export const { getUsers, setUserId, } = userSlice.actions;
+export const { getUsers, setUserId, setUserErrorValid, setUserErrorIsExist, } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -13,9 +13,9 @@ import { DeletedUserRes, } from 'types';
 import { deleteUser, } from '../../helpers/fetch';
 
 // ** Import Store
-import { RootState, } from '../../store';
-import { setUserId, } from '../../features/user/userSlice';
-import { openModal, } from '../../features/open/openSlice';
+import { RootState, } from '../../redux/store';
+import { setUserId, } from '../../redux/user/userSlice';
+import { openModal, } from '../../redux/open/openSlice';
 
 // ** Import Components
 import { Button, } from '../common';

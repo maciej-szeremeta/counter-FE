@@ -12,8 +12,8 @@ import { GetAllUsersRes, } from 'types';
 import { getUsers, } from '../../helpers/fetch';
 
 // ** Import Store
-import { openForm, openModal, } from '../../features/open/openSlice';
-import { setUserId, } from '../../features/user/userSlice';
+import { openForm, openModal, } from '../../redux/open/openSlice';
+import { setUserId, } from '../../redux/user/userSlice';
 
 // ** Import Components
 import { Button, } from '../common';
@@ -22,9 +22,9 @@ import { UserTableRow, } from './UserTableRow';
 // ** Import Styles
 import styles from './UsersTable.module.css';
 
-Modal.setAppElement('#root');
-
 // ** Interfaces
+
+Modal.setAppElement('#root');
 export function UsersTable() {
 
   // ** Global States
@@ -60,7 +60,8 @@ export function UsersTable() {
     () =>
       (data), [ data, ]
   );
-  
+
+  // ** Effect
   // ** Handlers
   const isEven = (i:number) =>
     i % 2 === 0;

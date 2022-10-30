@@ -1,78 +1,78 @@
-import React, { FormEvent, useEffect, useState, } from 'react';
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable function-call-argument-newline */
+// ** Import Basic
+import React, { FormEvent, SetStateAction, useState, } from 'react';
 import { useMutation, useQueryClient, } from 'react-query';
 import { useDispatch, } from 'react-redux';
-import { apiUrl, } from '../config/api';
-import { Button, Input, } from './common';
-import styles from './FormAdd.module.css';
-import { openForm, } from '../features/open/openSlice';
 
+// ** Import Types
+// ** Import Variables
+
+// ** Import Helpers
+import { registerUser, } from '../../helpers/fetch';
+
+// ** Import Store
+import { openForm, } from '../../redux/open/openSlice';
+
+// ** Import Components
+import { Button, Input, } from '../common';
+
+// ** Import Styles
+import styles from './UserAddForm.module.css';
+
+// ** Interfaces
 interface Props{
   header: string;
   subheader?: string;
 }
-export function FormAdd({ header, subheader, }: Props) {
- 
+export function UserAddForm({ header, subheader, }: Props) {
+
+  // ** Global States
   const dispatch = useDispatch();
-  
+
+  // ** Local States
   const [ email, setEmail, ] = useState('');
   const [ pwd, setPwd, ] = useState('');
-  const [ errorValid, setErrorValid, ] = useState([]); 
-  const [ errorIsExist, setErrorIsExist, ] = useState([]); 
+  const [ errorValid, setErrorValid, ] = useState<string[]>([]); 
+  const [ errorIsExist, setErrorIsExist, ] = useState<string[]>([]); 
   
+  // ** Api Queries
   const queryClient = useQueryClient();
-
   const { isLoading, isSuccess, mutate, } = useMutation(
-  
-    async () => {
-      const req = await fetch(
-        `${apiUrl}/user/register-user`, {
-          method     : 'POST',
-          headers    : { 'Content-Type': 'application/json', },
-          credentials: 'include',
-          body       : JSON.stringify({ email, pwd, }),
-        }
-      );
-      if (req.status === 400) {
-        setErrorValid((await req.json()).message);
-      }
-      else if (req.status === 409) {
-        setErrorIsExist((await req.json()).message);
-      }
- 
-      return req.json();
-      
-    }, {
+    () => 
+      registerUser({ email, pwd, })
+    , {
       onMutate: addUser => {
         queryClient.setQueryData(
           [ 'user', ], addUser
         );
         setErrorValid([]);
+        setErrorIsExist([]);
       },
       onSuccess: () => {
         setEmail('');
         setPwd('');
         setErrorValid([]);
         setErrorIsExist([]);
-        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
+      onError: (error: { statusCode: string; message: string[], error: string }) => {
+        if(Number(error.statusCode) === 409) setErrorIsExist(error.message as SetStateAction<string[]>);
+        if(Number(error.statusCode) === 400) setErrorValid(error.message as SetStateAction<string[]>);
+      },
+      retry: 1,
     }
   );
 
+  // ** Memo Data
   const handleSubmit = (e:FormEvent) => { 
     e.preventDefault();
     mutate();
   };
 
-  useEffect(
-    () => {
-      setTimeout(
-        () => {
-          setErrorIsExist([]);
-        }, 10000
-      );
-    }, [ errorIsExist, ]
-  );
+  // ** Effect
 
+  // ** Handlers
   return (<>
     {isLoading && <p>Zapisywanie..</p>}
     {isSuccess && <p>Dodany ...</p>}

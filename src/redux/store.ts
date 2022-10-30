@@ -1,7 +1,7 @@
 import { configureStore, } from '@reduxjs/toolkit';
-import loginReducer from './features/login/loginSlice';
-import openReducer from './features/open/openSlice';
-import userReducer from './features/user/userSlice';
+import loginReducer from './login/loginSlice';
+import openReducer from './open/openSlice';
+import userReducer from './user/userSlice';
 
 export const store = configureStore({
   reducer: {

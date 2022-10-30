@@ -2,7 +2,7 @@
 import React from 'react';
 import { useDispatch, } from 'react-redux';
 
-import { openForm, } from '../features/open/openSlice';
+import { openForm, } from '../redux/open/openSlice';
 
 import styles from './Navigation.module.css';
 

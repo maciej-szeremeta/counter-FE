@@ -38,7 +38,7 @@ export function Input({ type = 'text', name, placeholder='', icon, iconColor='#0
         />
       </div>
       <em className={styles.label}>
-        {messages.map(err => {
+        {messages.map((err: string) => {
           if (err.toLocaleLowerCase().includes(error.valid.toLocaleLowerCase())) {
             return err;
           }

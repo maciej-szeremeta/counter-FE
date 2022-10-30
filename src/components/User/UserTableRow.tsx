@@ -10,7 +10,7 @@ import { GetOneUserRes, } from 'types';
 import { getOneUser, } from '../../helpers/fetch';
 
 // ** Import Store
-import { RootState, } from '../../store';
+import { RootState, } from '../../redux/store';
 
 // ** Import Components
 // ** Import Styles

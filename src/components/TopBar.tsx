@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useState, } from 'react';
 import { useSelector, useDispatch, } from 'react-redux';
 import { faBars, faGear, } from '@fortawesome/free-solid-svg-icons';
-import { logoutUser, } from '../features/login/loginSlice';
+import { logoutUser, } from '../redux/login/loginSlice';
 import { Button, Icon, } from './common';
 import { apiUrl, } from '../config/api';
-import type { RootState, } from '../store';
+import type { RootState, } from '../redux/store';
 
 import styles from './TopBar.module.css';
 

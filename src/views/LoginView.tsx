@@ -1,7 +1,7 @@
 import React, { FormEvent, useState, } from 'react';
 import { faUser, faKey, } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, } from 'react-redux';
-import { loginUser, } from '../features/login/loginSlice';
+import { loginUser, } from '../redux/login/loginSlice';
 import { apiUrl, } from '../config/api';
 
 import { Input, Button, } from '../components/common';

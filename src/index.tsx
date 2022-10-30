@@ -5,7 +5,7 @@ import { Provider, } from 'react-redux';
 import { QueryClient, QueryClientProvider, } from 'react-query';
 import { ReactQueryDevtools, } from 'react-query/devtools';
 import reportWebVitals from './reportWebVitals';
-import { store, } from './store';
+import { store, } from './redux/store';
 import { App, } from './App';
 import './index.css';
 

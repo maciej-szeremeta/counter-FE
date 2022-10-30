@@ -9,10 +9,10 @@ import { useSelector, } from 'react-redux';
 // ** Import Helpers
 
 // ** Import Store
-import { RootState, } from '../store';
+import { RootState, } from '../redux/store';
 
 // ** Import Components
-import { FormAdd, Main, ModalDelete, Navigation, UsersTable, } from '../components';
+import { UserAddForm, Main, ModalDelete, Navigation, UsersTable, } from '../components';
 
 // ** Import Styles
 import styles from './UserView.module.css';
@@ -38,7 +38,7 @@ export function UserView() {
         <Navigation/>
         <div className={styles.container}>
           <div className={styles.addUserForm}>
-            {visibleForm ? <FormAdd header='Dodawanie użytkownika'/>:null }
+            {visibleForm ? <UserAddForm header='Dodawanie użytkownika'/>:null }
           </div>
           <UsersTable />
         </div>
