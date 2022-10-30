@@ -29,7 +29,7 @@ export function UserTableRow({ widthRow, }:Props) {
 
   // ** Local States
   // ** Api Queries
-  const { isLoading, isError, error, data, } = useQuery<GetOneUserRes, Error>(
+  const { isLoading, isError, data, } = useQuery<GetOneUserRes, Error>(
     [ 'user', userId, ], () => 
       getOneUser(userId), {
       refetchOnWindowFocus: true,
@@ -37,10 +37,10 @@ export function UserTableRow({ widthRow, }:Props) {
       refetchOnReconnect  : true,
     }
   );
-  return (<tr >
+  return (<tr key={userId}>
     {isLoading && (<p>Loading...</p>)}
     {isError && (<p>Brak połączenia z bazą</p>)}
-    <td
+    <td 
       colSpan={widthRow}
       className={styles.tableRow}>
       <div className={styles.container}>  

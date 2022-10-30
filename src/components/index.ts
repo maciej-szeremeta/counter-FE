@@ -1,4 +1,3 @@
-export * from './FormLogin';
 export * from './Sidebar';
 export * from './TopBar';
 export * from './List';
@@ -10,3 +9,7 @@ export * from './User/UsersTable';
 export * from './User/UserTableRow';
 export * from './User/UserDeleteModal';
 export * from './User/UserAddForm';
+export * from './User/UserEditForm';
+
+// ** Auth
+export * from './FormLogin';

@@ -4,7 +4,7 @@ import { IconProp, } from '@fortawesome/fontawesome-svg-core';
 import styles from './Icon.module.css';
 
 interface Props{
-   icon: IconProp;
+  icon: IconProp;
   color?: string;
   className?: string;
   size?: string;

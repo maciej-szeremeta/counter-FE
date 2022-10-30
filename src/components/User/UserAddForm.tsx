@@ -65,14 +65,14 @@ export function UserAddForm({ header, subheader, }: Props) {
   );
 
   // ** Memo Data
-  const handleSubmit = (e:FormEvent) => { 
-    e.preventDefault();
-    mutate();
-  };
 
   // ** Effect
 
-  // ** Handlers
+  // ** Handlers  
+  const handleSubmit = (e: FormEvent) => { 
+    e.preventDefault();
+    mutate();
+  };
   return (<>
     {isLoading && <p>Zapisywanie..</p>}
     {isSuccess && <p>Dodany ...</p>}
@@ -97,37 +97,6 @@ export function UserAddForm({ header, subheader, }: Props) {
         handleChange={setPwd}
         error={{ error: errorValid, valid: 'hasło', }}
       />
-
-      {/* {userId && <div className={styles.radio}>
-        <label
-          htmlFor='admin'
-          className={styles.radioLabel}>
-          <input
-            className={styles.radioInput}
-            type='radio'
-            value='admin'
-            name='role'
-            id='admin'
-            checked={role === 'admin'}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => 
-              setRole(e.target.value)} />
-          Admin
-        </label>
-        <label
-          htmlFor='user'
-          className={styles.radioLabel}>
-          <input
-            className={styles.radioInput}
-            type='radio'
-            value='user'
-            name='role'
-            id='user'
-            checked={role === 'user'}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => 
-              setRole(e.target.value)} />
-          User
-        </label>
-      </div>} */}
 
       <div className={styles.buttonGroup}>
         <Button

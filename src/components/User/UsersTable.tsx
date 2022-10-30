@@ -12,12 +12,13 @@ import { GetAllUsersRes, } from 'types';
 import { getUsers, } from '../../helpers/fetch';
 
 // ** Import Store
-import { openForm, openModal, } from '../../redux/open/openSlice';
+import { openModal, } from '../../redux/open/openSlice';
 import { setUserId, } from '../../redux/user/userSlice';
 
 // ** Import Components
 import { Button, } from '../common';
 import { UserTableRow, } from './UserTableRow';
+import { UserEditForm, } from './UserEditForm';
 
 // ** Import Styles
 import styles from './UsersTable.module.css';
@@ -31,7 +32,8 @@ export function UsersTable() {
   const dispatch = useDispatch();
   
   // ** Local States
-  const [ selected, setSelected, ] = useState<string | null>('');
+  const [ visibleOneUser, setVisibleOneUser, ] = useState<string | null>('');
+  const [ visibleEditUser, setVisibleEditUser, ] = useState<string | null>('');
 
   // ** Api Queries
   const { isLoading, isError, error, data, } = useQuery<GetAllUsersRes, Error>(
@@ -83,7 +85,6 @@ export function UsersTable() {
           (
             <>
               <tr key={row.id} className={isEven(i + 1) ? `${styles.rowEven}` : ''}>
-
                 <td className={`${styles.tData} ${styles.row}`}>
                   {i + 1}
                 </td>
@@ -99,18 +100,19 @@ export function UsersTable() {
                 <td className={`${styles.tData} ${styles.row}`}>
                   <span />
                   <Button
-                    text={selected ===row.id?'✕ Mniej':'✓ Więcej'}
+                    text={visibleOneUser ===row.id?'✕ Mniej':'✓ Więcej'}
                     handleClick={() => {
                       dispatch(setUserId(row.id));
-                      return selected === row.id ? setSelected(null) : setSelected(row.id);
-                    }
-                    }/>
+                      setVisibleEditUser(null);
+                      return visibleOneUser === row.id ? setVisibleOneUser(null) : setVisibleOneUser(row.id);
+                    }}/>
                 </td>
                 <td className={`${styles.tData} ${styles.row}`}>
                   <Button
                     handleClick={() => {
-                      dispatch(setUserId( row.id));
-                      dispatch(openForm());
+                      dispatch(setUserId(row.id));
+                      setVisibleOneUser(null);
+                      return visibleEditUser === row.id ? setVisibleEditUser(null) : setVisibleEditUser(row.id);
                     }}
                     text='Edytuj'
                     type='button' />
@@ -125,7 +127,10 @@ export function UsersTable() {
                     type='button' />
                 </td>
               </tr>
-              {selected === row.id? <UserTableRow
+              {visibleOneUser === row.id? <UserTableRow
+                widthRow={columns.length}
+              /> : null}
+              {visibleEditUser === row.id? <UserEditForm
                 widthRow={columns.length}
               /> : null}
             </>))}
